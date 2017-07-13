@@ -110,8 +110,15 @@ function ps (box, i , j) {
 				box.append('<p class="black_piece">'+piece.name+'</p>');
 
 				if(position[2] != null)
-					box.find("p:eq(1)").attr("id",position[2]);
+					box.find("p:eq(1)").attr("id",position[2]).draggable();
+					
 			}
+			$('#s'+i+'x4').droppable({drop: handleDropEvent});
 		}
 	}
+}
+
+function handleDropEvent( event, ui ) {
+  var draggable = ui.draggable;
+  alert( 'Dropped successfully!' );
 }
