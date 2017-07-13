@@ -1,0 +1,54 @@
+#main
+{
+	height: 100%;
+	padding: 0;
+	background: #ccc;
+	margin: 0 auto;
+}
+
+.square{
+	width: 80px;
+	height: 80px;
+	display: inline-block;
+	margin: 0;
+	padding: 0;
+	position: absolute;
+}
+
+.square p{
+	position: inherit;
+	margin: auto;
+	padding: 0;
+	text-align: center;
+}
+
+
+.white {
+	background-color: #ffffff;
+	color: #333333;
+}
+
+.black {
+	background-color: #333333;
+	color: #cccccc;
+}
+
+.white_piece{
+	color: orange;
+}
+
+.black_piece{
+	color: blue;
+}
+
+
+
+#chess_board{
+	position: relative;
+	height: 642px;
+	width: 642px;
+	border: 1px solid black;
+	margin: 0 auto;
+}
+
+
