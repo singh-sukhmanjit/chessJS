@@ -7,41 +7,41 @@ var pieces = [
 		name:'pawn',
 		movement:'straight',
 		white : [
-			[2,1], [2,2],[2,3],[2,4],[2,5],[2,6],[2,7],[2,8]
+			[2,1,'wp1'], [2,2,'wp2'],[2,3,'wp3'],[2,4,'wp4'],[2,5,'wp5'],[2,6,'wp6'],[2,7,'wp7'],[2,8,'wp8']
 		],
 		black : [
-			[7,1], [7,2],[7,3],[7,4],[7,5],[7,6],[7,7],[7,8]
+			[7,1,'bp1'], [7,2,'bp2'],[7,3,'bp3'],[7,4,'bp4'],[7,5,'bp5'],[7,6,'bp6'],[7,7,'bp7'],[7,8,'bp8']
 		]
 	},
 	{
 		name:'rook',
 		movement:'straight',
-		white : [[1,1],[1,8]],
-		black : [[8,1],[8,8]]
+		white : [[1,1,'wr1'],[1,8,'wr2']],
+		black : [[8,1,'br1'],[8,8,'br2']]
 	},
 	{
 		name:'knight',
 		movement:'two_and_half',
-		white : [[1,2],[1,7]],
-		black : [[8,2],[8,7]]
+		white : [[1,2,'wn1'],[1,7,'wn2']],
+		black : [[8,2,'bn1'],[8,7,'bn2']]
 	},
 	{
 		name:'bishop',
 		movement:'diagonal',
-		white : [[1,3],[1,6]],
-		black : [[8,3],[8,6]]
+		white : [[1,3,'wb1'],[1,6,'wb2']],
+		black : [[8,3,'bb1'],[8,6,'bb2']]
 	},
 	{
 		name:'king',
 		movement:'single',
-		white : [[1,5]],
-		black : [[8,5]]
+		white : [[1,5,'wk1']],
+		black : [[8,5,'bk1']]
 	},
 	{
 		name:'queen',
 		movement:'straight_diagonal',
-		white : [[1,4,'wq']],
-		black : [[8,4,'bq']]
+		white : [[1,4,'wq1']],
+		black : [[8,4,'bq1']]
 
 	}
 
