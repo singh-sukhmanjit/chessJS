@@ -51,7 +51,7 @@ for(var i=1; i <= 8; i++){
 
 	position[i] = [];
 
-	for(var j=1; j <= 8;j++){
+	for(var j=1; j <= 8;j++) {
 
 		position[i].push({
 			a : i,
@@ -72,7 +72,6 @@ for(var i=1; i <= 8; i++){
 
 		if((i+j)%2 !== 0){
 			box.addClass('white');
-
 		}
 		else{
 			box.addClass('black');
@@ -84,7 +83,7 @@ for(var i=1; i <= 8; i++){
 
 function ps (box, i , j) {
 
-	for(var k = 0; k < pieces.length; k++){
+	for(var k = 0; k < pieces.length; k++) {
 
 		var piece = pieces[k]; 
 		
