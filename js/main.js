@@ -96,9 +96,10 @@ function ps (box, i , j) {
 				box.append('<p class="white_piece">'+piece.name+'</p>');
 
 				if(position[2] != null)
-					box.find("p:eq(1)").attr("id",position[2]);
+					box.find("p:eq(1)").attr("id",position[2]).draggable();
 
 			}
+			$('#s'+i+'x4').droppable({drop: handleDropEvent});
 		}
 	
 		for(var l = 0; l < piece.black.length; l++) {
@@ -109,7 +110,9 @@ function ps (box, i , j) {
 				box.append('<p class="black_piece">'+piece.name+'</p>');
 
 				if(position[2] != null)
-					box.find("p:eq(1)").attr("id",position[2]).draggable();
+					box.find("p:eq(1)").attr("id",position[2]).draggable({
+						containment:'#chess_board',
+						revert: true});
 					
 			}
 			$('#s'+i+'x4').droppable({drop: handleDropEvent});
