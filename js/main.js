@@ -4,6 +4,8 @@ var sqSize = 80;
 
 var selectedPiece = null;
 
+var picesSquare = null;
+
 var pieces = [
     {
         name: 'pawn',
@@ -171,13 +173,16 @@ function selectPiece(id) {
 
 function pawn(pcs, sq) {
 
-    var i = +sq.charAt(1);
-    var j = +sq.charAt(3);
+    if (pcs !== (null || undefined) && sq !== (null || undefined)) {
 
-    console.log(j);
-    i = i + 1;
-    console.log(i);
-    return [i, j];
+        var i = sq.charAt(1);
+        var j = sq.charAt(3);
+        i = i + 1;
+        picesSquare = [i, j];
+    }
+
+    console.log(picesSquare);
+    return picesSquare;
 }
 
 $('.piece').click(function (e) {
@@ -191,13 +196,15 @@ $('.piece').click(function (e) {
     }
 
     e.stopPropagation();
-    console.log(e);
+    // console.log(e);
 });
 
 $('.square').click(function (e) {
     if (selectedPiece !== null) {
         var tes = pawn()[0];
+
         console.log(tes);
+
         if ((e.target.id.search(pawn()[0]) === 1) && (e.target.id.search(pawn()[1]) === 3)) {
             console.log(e.target.id);
             selectedPiece.detach().appendTo('#' + this.id);
