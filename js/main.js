@@ -6,6 +6,8 @@ var selectedPiece = null;
 
 var picesSquare = null;
 
+var movements = [];
+
 var pieces = [
   {
     name: "pawn",
@@ -72,6 +74,47 @@ var movement = [
     ]
   }
 ];
+
+var Bishop = {
+  moveTo: function(piece) {
+    var x = parseInt(piece.position.x);
+    var v = parseInt(piece.position.y);
+  },
+  showMovable: function(piece) {
+    var x = parseInt(piece.position.x);
+    var v = parseInt(piece.position.y);
+
+    movements = [];
+
+    while (x >= 1 && x <= 8 && y >= 1 && y <= 8) {
+      movements.push({ x: x, y: y });
+      x++;
+      y++;
+    }
+
+    var x = piece.position.x;
+    var y = piece.position.y;
+
+    while (x >= 1 && x <= 8 && y >= 1 && y <= 8) {
+      //   console.log("1st" + x + "x" + y);
+      movements.push({ x: x, y: y });
+      x++;
+      y++;
+    }
+
+    for (var i = 0; i < movements.length; i++) {
+      console.log(movements[i]);
+      var cls = "#s" + movements[i].x + "x" + movements[i].y;
+
+      console.log(cls);
+      $(cls).addClass("placeable");
+    }
+
+    // console.log(movements);
+
+    return movements;
+  }
+};
 
 for (var i = 1; i <= 8; i++) {
   position[i] = [];
@@ -151,8 +194,62 @@ function pawn(pcs, sq) {
   return picesSquare;
 }
 
+function checkPiece(id, sq) {
+  if (id === (null || undefined)) return "Invalid Entry";
+
+  var type;
+  var name;
+
+  switch (id[0]) {
+    case "w":
+      type = "white";
+      break;
+    case "b":
+      type = "black";
+      break;
+    default:
+      return "Invalid ID";
+      break;
+  }
+
+  switch (id[1]) {
+    case "p":
+      name = "pawn";
+      break;
+    case "b":
+      name = "bishop";
+      break;
+    case "n":
+      name = "knight";
+      break;
+    case "r":
+      name = "rook";
+      break;
+    case "k":
+      name = "king";
+      break;
+    case "q":
+      name = "queen";
+      break;
+    default:
+      return "Invalid ID";
+      break;
+  }
+
+  if (sq !== (null || undefined))
+    return { name: name, type: type, position: { x: sq[1], y: sq[3] } };
+  else return { name: name, type: type };
+}
+
 $(".piece").click(function(e) {
   selectPiece(this.id);
+
+  var pc = checkPiece(this.id, e.target.parentElement.id);
+  switch (pc.name) {
+    case "bishop":
+      Bishop.showMovable(pc);
+      break;
+  }
 
   var pcs = e.currentTarget.innerHTML;
   var sq = e.target.parentElement.id;
@@ -167,17 +264,24 @@ $(".piece").click(function(e) {
 
 $(".square").click(function(e) {
   if (selectedPiece !== null) {
-    var tes = pawn()[0];
+    var pc = checkPiece(selectedPiece.attr("id"));
+    if (pc.name == "pawn") {
+      var tes = pawn()[0];
+      //   console.log(tes);
+      if (
+        e.target.id.search(pawn()[0]) === 1 &&
+        e.target.id.search(pawn()[1]) === 3
+      ) {
+        // console.log(e.target.id);
+      }
+    } else {
+        console.log({x: parseInt(this.id[1]), y: parseInt(this.id[3])});
 
-    console.log(tes);
-
-    if (
-      e.target.id.search(pawn()[0]) === 1 &&
-      e.target.id.search(pawn()[1]) === 3
-    ) {
-      console.log(e.target.id);
-      selectedPiece.detach().appendTo("#" + this.id);
-      selectPiece();
+        // Incomplete login for moving the piece. Working on it
+      if (movements.indexOf({x: parseInt(this.id[1]), y: parseInt(this.id[3])}) !== 0) {
+        selectedPiece.detach().appendTo("#" + this.id);
+        selectPiece();
+      }
     }
   }
 });
@@ -188,6 +292,5 @@ $(".square").click(function(e) {
   }
 
   console.log(".");
-
   setTimeout(loop, 1000 / 30);
 })();
