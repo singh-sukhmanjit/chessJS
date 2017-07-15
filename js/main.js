@@ -83,11 +83,11 @@ var pieces = [
 
 ];
 
-var movement=[
-	{
-		piece: 'pawn',
-        moves: [['3x1'],['3x2'],['3x3'],['3x4'],['3x5'],['3x6'],['3x7'],['3x8']]
-	}
+var movement = [
+    {
+        piece: 'pawn',
+        moves: [['3x1'], ['3x2'], ['3x3'], ['3x4'], ['3x5'], ['3x6'], ['3x7'], ['3x8']]
+    }
 ];
 
 for (var i = 1; i <= 8; i++) {
@@ -169,34 +169,36 @@ function selectPiece(id) {
 
 }
 
-function pawn(pcs, sq){
+function pawn(pcs, sq) {
 
-    var i=+sq.charAt(1);
-    var j=+sq.charAt(3);
-    
+    var i = +sq.charAt(1);
+    var j = +sq.charAt(3);
+
     console.log(j);
-    i=i+1;
+    i = i + 1;
     console.log(i);
     return [i, j];
 }
 
 $('.piece').click(function (e) {
     selectPiece(this.id);
-    var pcs =e.currentTarget.innerHTML;
-    var sq= e.target.parentElement.id;
-    if(pcs=='pawn(W)'){
-        pawn(pcs,sq);
-    }
-    e.stopPropagation();
 
+    var pcs = e.currentTarget.innerHTML;
+    var sq = e.target.parentElement.id;
+
+    if (pcs === 'pawn(W)') {
+        pawn(pcs, sq);
+    }
+
+    e.stopPropagation();
     console.log(e);
 });
 
 $('.square').click(function (e) {
     if (selectedPiece !== null) {
-        var tes=pawn()[0];
-    	console.log(tes);
-        if((e.target.id.search(pawn()[0])==1) && (e.target.id.search(pawn()[1])==3)){
+        var tes = pawn()[0];
+        console.log(tes);
+        if ((e.target.id.search(pawn()[0]) === 1) && (e.target.id.search(pawn()[1]) === 3)) {
             console.log(e.target.id);
             selectedPiece.detach().appendTo('#' + this.id);
             selectPiece();
