@@ -7,7 +7,6 @@ var selectedPiece = null;
 var pieces = [
     {
         name: 'pawn',
-        movement: 'straight',
         white: [
             {id: 'wp1', position: [2, 1]},
             {id: 'wp2', position: [2, 2]},
@@ -31,7 +30,6 @@ var pieces = [
     },
     {
         name: 'rook',
-        movement: 'straight',
         white: [
             {id: 'wr1', position: [1, 1]},
             {id: 'wr2', position: [1, 8]}
@@ -43,7 +41,6 @@ var pieces = [
     },
     {
         name: 'knight',
-        movement: 'two_and_half',
         white: [
             {id: 'wn1', position: [1, 2]},
             {id: 'wn2', position: [1, 7]}
@@ -55,7 +52,6 @@ var pieces = [
     },
     {
         name: 'bishop',
-        movement: 'diagonal',
         white: [
             {id: 'wb1', position: [1, 3]},
             {id: 'wb2', position: [1, 6]}
@@ -67,7 +63,6 @@ var pieces = [
     },
     {
         name: 'king',
-        movement: 'single',
         white: [
             {id: 'wk1', position: [1, 5]}
         ],
@@ -77,7 +72,6 @@ var pieces = [
     },
     {
         name: 'queen',
-        movement: 'straight_diagonal',
         white: [
             {id: 'wq1', position: [1, 4]}
         ],
@@ -87,6 +81,13 @@ var pieces = [
 
     }
 
+];
+
+var movement=[
+	{
+		piece: 'pawn',
+        moves: [['3x1'],['3x2'],['3x3'],['3x4'],['3x5'],['3x6'],['3x7'],['3x8']]
+	}
 ];
 
 for (var i = 1; i <= 8; i++) {
@@ -161,23 +162,46 @@ function selectPiece(id) {
     }
     if (id !== null) {
         selectedPiece = $('#' + id);
+        console.log(selectedPiece);
     } else {
         selectedPiece = null;
     }
 
 }
 
+function pawn(pcs, sq){
+
+    var i=+sq.charAt(1);
+    var j=+sq.charAt(3);
+    
+    console.log(j);
+    i=i+1;
+    console.log(i);
+    return [i, j];
+}
+
 $('.piece').click(function (e) {
     selectPiece(this.id);
+    var pcs =e.currentTarget.innerHTML;
+    var sq= e.target.parentElement.id;
+    if(pcs=='pawn(W)'){
+        pawn(pcs,sq);
+    }
     e.stopPropagation();
+
+    console.log(e);
 });
 
 $('.square').click(function (e) {
     if (selectedPiece !== null) {
-        selectedPiece.detach().appendTo('#' + this.id);
-        selectPiece();
+        var tes=pawn()[0];
+    	console.log(tes);
+        if((e.target.id.search(pawn()[0])==1) && (e.target.id.search(pawn()[1])==3)){
+            console.log(e.target.id);
+            selectedPiece.detach().appendTo('#' + this.id);
+            selectPiece();
+        }
     }
-    console.log('square');
 });
 
 
@@ -191,3 +215,4 @@ $('.square').click(function (e) {
 
     setTimeout(loop, 1000 / 30);
 })();
+
