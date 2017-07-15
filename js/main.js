@@ -302,5 +302,5 @@ $(".square").click(function(e) {
   }
 
   console.log(".");
-  setTimeout(loop, 1000 / 30);
+  setTimeout(loop, 1000 / 60);
 })();
