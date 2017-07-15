@@ -4,7 +4,7 @@ var sqSize = 80;
 
 var selectedPiece = null;
 
-var picesSquare = null;
+var piecesSquare = null;
 
 var movements = [];
 
@@ -176,7 +176,6 @@ function selectPiece(id) {
   }
   if (id !== null) {
     selectedPiece = $("#" + id);
-    console.log(selectedPiece);
   } else {
     selectedPiece = null;
   }
@@ -184,14 +183,13 @@ function selectPiece(id) {
 
 function pawn(pcs, sq) {
   if (pcs !== (null || undefined) && sq !== (null || undefined)) {
-    var i = sq.charAt(1);
-    var j = sq.charAt(3);
+    var i = +sq.charAt(1);
+    var j = +sq.charAt(3);
     i = i + 1;
-    picesSquare = [i, j];
+    piecesSquare = [i, j];
   }
 
-  console.log(picesSquare);
-  return picesSquare;
+  return piecesSquare;
 }
 
 function checkPiece(id, sq) {
@@ -251,10 +249,9 @@ $(".piece").click(function(e) {
       break;
   }
 
-  var pcs = e.currentTarget.innerHTML;
+  var pcs = this.id;
   var sq = e.target.parentElement.id;
-
-  if (pcs === "pawn(W)") {
+  if (pcs.substr(0, 2) === "wp") {
     pawn(pcs, sq);
   }
 
@@ -266,19 +263,25 @@ $(".square").click(function(e) {
   if (selectedPiece !== null) {
     var pc = checkPiece(selectedPiece.attr("id"));
     if (pc.name == "pawn") {
-      var tes = pawn()[0];
-      //   console.log(tes);
+      var tes = piecesSquare;
       if (
-        e.target.id.search(pawn()[0]) === 1 &&
-        e.target.id.search(pawn()[1]) === 3
+        e.target.id.substr(1, 1) == tes[0] &&
+        e.target.id.substr(3, 3) == tes[1]
       ) {
-        // console.log(e.target.id);
+        selectedPiece.detach().appendTo("#" + this.id);
+        piecesSquare = null;
+        selectPiece();
       }
     } else {
-        console.log({x: parseInt(this.id[1]), y: parseInt(this.id[3])});
+      console.log({ x: parseInt(this.id[1]), y: parseInt(this.id[3]) });
 
-        // Incomplete login for moving the piece. Working on it
-      if (movements.indexOf({x: parseInt(this.id[1]), y: parseInt(this.id[3])}) !== 0) {
+      // Incomplete login for moving the piece. Working on it
+      if (
+        movements.indexOf({
+          x: parseInt(this.id[1]),
+          y: parseInt(this.id[3])
+        }) !== 0
+      ) {
         selectedPiece.detach().appendTo("#" + this.id);
         selectPiece();
       }
