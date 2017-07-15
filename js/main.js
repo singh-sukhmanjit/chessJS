@@ -83,7 +83,6 @@ var Bishop = {
   showMovable: function(piece) {
     var x = parseInt(piece.position.x);
     var v = parseInt(piece.position.y);
-
     movements = [];
 
     while (x >= 1 && x <= 8 && y >= 1 && y <= 8) {
@@ -108,6 +107,36 @@ var Bishop = {
 
       console.log(cls);
       $(cls).addClass("placeable");
+    }
+
+    // console.log(movements);
+
+    return movements;
+  }
+};
+
+var Pawn = {
+  moveTo: function(piece) {
+    var x = parseInt(piece.position.x);
+    var v = parseInt(piece.position.y);
+  },
+  showMovable: function(piece) {
+    var x = parseInt(piece.position.x);
+    var y = parseInt(piece.position.y);
+    movements = [];
+
+    //loop runs once because pawn moves one step at a time
+    for (var i=0; i<1; i++) {   
+      x++;  //only value of x needs to be incremented, as pawn moves straight
+      movements.push({ x: x, y: y });   //possible moves are stored in movement[]
+    }
+
+    for (var i = 0; i < movements.length; i++) {
+      console.log(movements[i]);
+      var cls = "#s" + movements[i].x + "x" + movements[i].y;   //eg cls = s2x5
+
+      console.log(cls);
+      $(cls).addClass("placeable"); //placeable class added to all possible moves
     }
 
     // console.log(movements);
@@ -181,17 +210,6 @@ function selectPiece(id) {
   }
 }
 
-function pawn(pcs, sq) {
-  if (pcs !== (null || undefined) && sq !== (null || undefined)) {
-    var i = +sq.charAt(1);
-    var j = +sq.charAt(3);
-    i = i + 1;
-    piecesSquare = [i, j];
-  }
-
-  return piecesSquare;
-}
-
 function checkPiece(id, sq) {
   if (id === (null || undefined)) return "Invalid Entry";
 
@@ -249,10 +267,10 @@ $(".piece").click(function(e) {
       break;
   }
 
-  var pcs = this.id;
-  var sq = e.target.parentElement.id;
-  if (pcs.substr(0, 2) === "wp") {
-    pawn(pcs, sq);
+  switch (pc.name) {
+    case "pawn":
+      Pawn.showMovable(pc); //showMovable() in Pawn object runs
+      break;
   }
 
   e.stopPropagation();
@@ -261,37 +279,26 @@ $(".piece").click(function(e) {
 
 $(".square").click(function(e) {
   if (selectedPiece !== null) {
-    var pc = checkPiece(selectedPiece.attr("id"));
-    if (pc.name == "pawn") {
-      var tes = piecesSquare;
-      if (
-        e.target.id.substr(1, 1) == tes[0] &&
-        e.target.id.substr(3, 3) == tes[1]
-      ) {
-        selectedPiece.detach().appendTo("#" + this.id);
-        piecesSquare = null;
-        selectPiece();
-      }
-    } else {
-      console.log({ x: parseInt(this.id[1]), y: parseInt(this.id[3]) });
-
+    var pc = checkPiece(selectedPiece.attr("id"));  //eg pc = wp4
+    console.log({ x: parseInt(this.id[1]), y: parseInt(this.id[3]) });
       // Incomplete login for moving the piece. Working on it
-      if (
-        movements.indexOf({
-          x: parseInt(this.id[1]),
-          y: parseInt(this.id[3])
-        }) !== 0
-      ) {
-        selectedPiece.detach().appendTo("#" + this.id);
-        selectPiece();
-      }
+    if (
+    movements.indexOf({
+        x: parseInt(this.id[1]),
+        y: parseInt(this.id[3])
+    }) !== 0
+    ) {
+    selectedPiece.detach().appendTo("#" + this.id);
+    selectPiece();
     }
+    
   }
 });
 
 (function loop() {
-  if (selectedPiece !== null) {
-    selectedPiece.addClass("selected");
+  if (selectedPiece !== null) { 
+    //if selectedPiece != null then selected class is added to that piece
+    selectedPiece.addClass("selected"); 
   }
 
   console.log(".");
