@@ -175,6 +175,46 @@ var Knight = {
   }
 };
 
+var Rook = {
+  moveTo: function(piece) {
+    var x = parseInt(piece.position.x);
+    var v = parseInt(piece.position.y);
+  },
+  showMovable: function(piece) {
+    var x = parseInt(piece.position.x);
+    var y = parseInt(piece.position.y);
+    movements = [];
+    //4 variables for moves in 4 directions 
+    var r1,r3,r3,r4;
+    r1=r3=x;
+    r2=r4=y;
+    //loop runs once because pawn moves one step at a time
+    for (var i=0; i<8; i++) {   
+      r1++;
+      movements.push({ x: r1, y: y });   
+      r2++;
+      movements.push({ x: x, y: r2 });
+      r3--;
+      movements.push({ x: r3, y: y });   
+      r4--;
+      movements.push({ x: x, y: r4 });
+      
+    }
+
+    for (var i = 0; i < movements.length; i++) {
+      console.log(movements[i]);
+      var cls = "#s" + movements[i].x + "x" + movements[i].y;   //eg cls = s2x5
+
+      console.log(cls);
+      $(cls).addClass("placeable"); //placeable class added to all possible moves
+    }
+
+    // console.log(movements);
+
+    return movements;
+  }
+};
+
 for (var i = 1; i <= 8; i++) {
   position[i] = [];
 
@@ -305,7 +345,16 @@ $(".piece").click(function(e) {
       break;
   }
 
+<<<<<<< HEAD
   e.stopPropagation(); //Stopping the onClick even to pass to parent div {square}
+=======
+  switch (pc.name) {
+    case "rook":
+      Rook.showMovable(pc); //showMovable() in Pawn object runs
+      break;
+  }
+  e.stopPropagation();
+>>>>>>> 89ff498656bde23807c3f409f38d4175c183d6b9
   // console.log(e);
 });
 
