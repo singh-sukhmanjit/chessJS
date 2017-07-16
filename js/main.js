@@ -59,22 +59,6 @@ var pieces = [
   }
 ];
 
-var movement = [
-  {
-    piece: "pawn",
-    moves: [
-      ["3x1"],
-      ["3x2"],
-      ["3x3"],
-      ["3x4"],
-      ["3x5"],
-      ["3x6"],
-      ["3x7"],
-      ["3x8"]
-    ]
-  }
-];
-
 var Bishop = {
   moveTo: function(piece) {
     var x = parseInt(piece.position.x);
@@ -82,6 +66,7 @@ var Bishop = {
   },
   showMovable: function(piece) {
     var x = parseInt(piece.position.x);
+
     var y = parseInt(piece.position.y);
     movements = [];
     // each variable will have reference from x and y
@@ -103,6 +88,7 @@ var Bishop = {
       b8++;
       movements.push({ x: b7, y: b8 });
       
+
     }
 
     for (var i = 0; i < movements.length; i++) {
@@ -130,21 +116,15 @@ var Pawn = {
     movements = [];
 
     //loop runs once because pawn moves one step at a time
-    for (var i=0; i<1; i++) {   
-      x++;  //only value of x needs to be incremented, as pawn moves straight
-      movements.push({ x: x, y: y });   //possible moves are stored in movement[]
+    for (var i = 0; i < 1; i++) {
+      x++; //only value of x needs to be incremented, as pawn moves straight
+      movements.push({ x: x, y: y }); //possible moves are stored in movement[]
     }
 
     for (var i = 0; i < movements.length; i++) {
-      console.log(movements[i]);
-      var cls = "#s" + movements[i].x + "x" + movements[i].y;   //eg cls = s2x5
-
-      console.log(cls);
+      var cls = "#s" + movements[i].x + "x" + movements[i].y; //eg cls = s2x5
       $(cls).addClass("placeable"); //placeable class added to all possible moves
     }
-
-    // console.log(movements);
-
     return movements;
   }
 };
@@ -159,39 +139,40 @@ var Knight = {
     var y = parseInt(piece.position.y);
     movements = [];
 
-    for (var i=0; i<1; i++) { 
-    var k1,k2;  //value of x & y will remain same and will be used for reference
-    //if value of x is changed by 2 then y will be changed by 1 and vice-versa
-    //max 8 moves possible from a given position
-      k1=x+2;
-      k2=y+1;  
-      movements.push({ x: k1, y: k2 });   
-      k1=x+2;
-      k2=y-1;  
+    //loop runs once because pawn moves one step at a time
+    for (var i = 0; i < 1; i++) {
+      var k1, k2; //value of x & y will remain same and will be used for reference
+      //if value of x is changed by 2 then y will be changed by 1 and vice-versa
+      //max 8 moves possible from a given position
+      k1 = x + 2;
+      k2 = y + 1;
       movements.push({ x: k1, y: k2 });
-      k1=x+1;
-      k2=y+2;  
-      movements.push({ x: k1, y: k2 });   
-      k1=x+1;
-      k2=y-2;  
+      k1 = x + 2;
+      k2 = y - 1;
       movements.push({ x: k1, y: k2 });
-      k1=x-1;
-      k2=y+2;  
-      movements.push({ x: k1, y: k2 });   
-      k1=x-1;
-      k2=y-2;  
+      k1 = x + 1;
+      k2 = y + 2;
       movements.push({ x: k1, y: k2 });
-      k1=x-2;
-      k2=y+1;  
-      movements.push({ x: k1, y: k2 });   
-      k1=x-2;
-      k2=y-1;  
+      k1 = x + 1;
+      k2 = y - 2;
+      movements.push({ x: k1, y: k2 });
+      k1 = x - 1;
+      k2 = y + 2;
+      movements.push({ x: k1, y: k2 });
+      k1 = x - 1;
+      k2 = y - 2;
+      movements.push({ x: k1, y: k2 });
+      k1 = x - 2;
+      k2 = y + 1;
+      movements.push({ x: k1, y: k2 });
+      k1 = x - 2;
+      k2 = y - 1;
       movements.push({ x: k1, y: k2 });
     }
 
     for (var i = 0; i < movements.length; i++) {
       console.log(movements[i]);
-      var cls = "#s" + movements[i].x + "x" + movements[i].y;   //eg cls = s2x5
+      var cls = "#s" + movements[i].x + "x" + movements[i].y; //eg cls = s2x5
 
       console.log(cls);
       $(cls).addClass("placeable"); //placeable class added to all possible moves
@@ -271,9 +252,9 @@ for (var i = 1; i <= 8; i++) {
 }
 
 function setPieces(box, i, j) {
+
   for (var k = 0; k < pieces.length; k++) {
     var piece = pieces[k];
-
     var position;
 
     for (var l = 0; l < piece.white.length; l++) {
@@ -309,7 +290,8 @@ function selectPiece(id) {
 }
 
 function checkPiece(id, sq) {
-  if (id === (null || undefined)) return "Invalid Entry";
+  if (id === (null || undefined)) 
+    return "Invalid Entry";
 
   var type;
   var name;
@@ -352,62 +334,54 @@ function checkPiece(id, sq) {
 
   if (sq !== (null || undefined))
     return { name: name, type: type, position: { x: sq[1], y: sq[3] } };
-  else return { name: name, type: type };
+  else 
+    return { name: name, type: type };
 }
 
 $(".piece").click(function(e) {
   selectPiece(this.id);
 
   var pc = checkPiece(this.id, e.target.parentElement.id);
-  switch (pc.name) {
+//Do not need multiple switch statements for the same logic.
+  switch (pc.name) { 
     case "bishop":
       Bishop.showMovable(pc);
-      break;
-  }
-
-  switch (pc.name) {
     case "pawn":
       Pawn.showMovable(pc); //showMovable() in Pawn object runs
       break;
-  }
-
-  switch (pc.name) {
     case "knight":
       Knight.showMovable(pc); //showMovable() in Pawn object runs
       break;
-  }
-
-  switch (pc.name) {
     case "rook":
       Rook.showMovable(pc); //showMovable() in Pawn object runs
       break;
   }
   e.stopPropagation();
+
   // console.log(e);
 });
 
 $(".square").click(function(e) {
   if (selectedPiece !== null) {
-    var pc = checkPiece(selectedPiece.attr("id"));  //eg pc = wp4
+    var pc = checkPiece(selectedPiece.attr("id")); //eg pc = wp4
     console.log({ x: parseInt(this.id[1]), y: parseInt(this.id[3]) });
-      // Incomplete login for moving the piece. Working on it
+    // Incomplete logic for moving the piece. Working on it
     if (
-    movements.indexOf({
+      movements.indexOf({
         x: parseInt(this.id[1]),
         y: parseInt(this.id[3])
-    }) !== 0
+      }) !== 0
     ) {
-    selectedPiece.detach().appendTo("#" + this.id);
-    selectPiece();
+      selectedPiece.detach().appendTo("#" + this.id);
+      selectPiece();
     }
-    
   }
 });
 
 (function loop() {
-  if (selectedPiece !== null) { 
+  if (selectedPiece !== null) {
     //if selectedPiece != null then selected class is added to that piece
-    selectedPiece.addClass("selected"); 
+    selectedPiece.addClass("selected");
   }
 
   console.log(".");
