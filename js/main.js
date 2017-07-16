@@ -60,24 +60,20 @@ var pieces = [
 ];
 
 var Bishop = {
-  moveTo: function(piece) {
-    var x = parseInt(piece.position.x);
-    var v = parseInt(piece.position.y);
-  },
   showMovable: function(piece) {
     var x = parseInt(piece.position.x);
 
     var y = parseInt(piece.position.y);
     movements = [];
     // each variable will have reference from x and y
-    var b1,b2,b3,b4,b5,b6,b7,b8;
-    b1=b3=b5=b7=x;
-    b2=b4=b6=b8=y;
+    var b1, b2, b3, b4, b5, b6, b7, b8;
+    b1 = b3 = b5 = b7 = x;
+    b2 = b4 = b6 = b8 = y;
     //loop runs 7 times as bishop has to move maximum of 7 squares at a time. eg 1x8 to 8x1
-    for (var i=0; i<7; i++) {   
+    for (var i = 0; i < 7; i++) {
       b1++;
       b2++;
-      movements.push({ x: b1, y: b2 });   
+      movements.push({ x: b1, y: b2 });
       b3++;
       b4--;
       movements.push({ x: b3, y: b4 });
@@ -87,15 +83,13 @@ var Bishop = {
       b7--;
       b8++;
       movements.push({ x: b7, y: b8 });
-      
-
     }
 
     for (var i = 0; i < movements.length; i++) {
-      console.log(movements[i]);
+      // console.log(movements[i]);
       var cls = "#s" + movements[i].x + "x" + movements[i].y;
 
-      console.log(cls);
+      // console.log(cls);
       $(cls).addClass("placeable");
     }
 
@@ -106,10 +100,6 @@ var Bishop = {
 };
 
 var Pawn = {
-  moveTo: function(piece) {
-    var x = parseInt(piece.position.x);
-    var v = parseInt(piece.position.y);
-  },
   showMovable: function(piece) {
     var x = parseInt(piece.position.x);
     var y = parseInt(piece.position.y);
@@ -130,10 +120,6 @@ var Pawn = {
 };
 
 var Knight = {
-  moveTo: function(piece) {
-    var x = parseInt(piece.position.x);
-    var v = parseInt(piece.position.y);
-  },
   showMovable: function(piece) {
     var x = parseInt(piece.position.x);
     var y = parseInt(piece.position.y);
@@ -171,10 +157,7 @@ var Knight = {
     }
 
     for (var i = 0; i < movements.length; i++) {
-      console.log(movements[i]);
       var cls = "#s" + movements[i].x + "x" + movements[i].y; //eg cls = s2x5
-
-      console.log(cls);
       $(cls).addClass("placeable"); //placeable class added to all possible moves
     }
 
@@ -185,36 +168,31 @@ var Knight = {
 };
 
 var Rook = {
-  moveTo: function(piece) {
-    var x = parseInt(piece.position.x);
-    var v = parseInt(piece.position.y);
-  },
   showMovable: function(piece) {
     var x = parseInt(piece.position.x);
     var y = parseInt(piece.position.y);
     movements = [];
-    //4 variables for moves in 4 directions 
-    var r1,r2,r3,r4;
-    r1=r3=x;
-    r2=r4=y;
+    //4 variables for moves in 4 directions
+    var r1, r2, r3, r4;
+    r1 = r3 = x;
+    r2 = r4 = y;
     //loop runs 7 times as rook has to move maximum of 7 squares at a time. eg 1x1 to 8x1
-    for (var i=0; i<7; i++) {   
+    for (var i = 0; i < 7; i++) {
       r1++;
-      movements.push({ x: r1, y: y });   
+      movements.push({ x: r1, y: y });
       r2++;
       movements.push({ x: x, y: r2 });
       r3--;
-      movements.push({ x: r3, y: y });   
+      movements.push({ x: r3, y: y });
       r4--;
       movements.push({ x: x, y: r4 });
-      
     }
 
     for (var i = 0; i < movements.length; i++) {
-      console.log(movements[i]);
-      var cls = "#s" + movements[i].x + "x" + movements[i].y;   //eg cls = s2x5
+      // console.log(movements[i]);
+      var cls = "#s" + movements[i].x + "x" + movements[i].y; //eg cls = s2x5
 
-      console.log(cls);
+      // console.log(cls);
       $(cls).addClass("placeable"); //placeable class added to all possible moves
     }
 
@@ -252,7 +230,6 @@ for (var i = 1; i <= 8; i++) {
 }
 
 function setPieces(box, i, j) {
-
   for (var k = 0; k < pieces.length; k++) {
     var piece = pieces[k];
     var position;
@@ -281,6 +258,8 @@ function setPieces(box, i, j) {
 function selectPiece(id) {
   if (selectedPiece !== null) {
     selectedPiece.removeClass("selected");
+    //if one piece is selected and anoher piece is clicked it will remove all movements
+    $(".placeable").removeClass("placeable");
   }
   if (id !== null) {
     selectedPiece = $("#" + id);
@@ -290,8 +269,7 @@ function selectPiece(id) {
 }
 
 function checkPiece(id, sq) {
-  if (id === (null || undefined)) 
-    return "Invalid Entry";
+  if (id === (null || undefined)) return "Invalid Entry";
 
   var type;
   var name;
@@ -334,18 +312,18 @@ function checkPiece(id, sq) {
 
   if (sq !== (null || undefined))
     return { name: name, type: type, position: { x: sq[1], y: sq[3] } };
-  else 
-    return { name: name, type: type };
+  else return { name: name, type: type };
 }
 
 $(".piece").click(function(e) {
   selectPiece(this.id);
 
   var pc = checkPiece(this.id, e.target.parentElement.id);
-//Do not need multiple switch statements for the same logic.
-  switch (pc.name) { 
+  //Do not need multiple switch statements for the same logic.
+  switch (pc.name) {
     case "bishop":
       Bishop.showMovable(pc);
+      break;
     case "pawn":
       Pawn.showMovable(pc); //showMovable() in Pawn object runs
       break;
@@ -357,23 +335,26 @@ $(".piece").click(function(e) {
       break;
   }
   e.stopPropagation();
-
-  // console.log(e);
 });
 
 $(".square").click(function(e) {
   if (selectedPiece !== null) {
     var pc = checkPiece(selectedPiece.attr("id")); //eg pc = wp4
-    console.log({ x: parseInt(this.id[1]), y: parseInt(this.id[3]) });
-    // Incomplete logic for moving the piece. Working on it
-    if (
-      movements.indexOf({
-        x: parseInt(this.id[1]),
-        y: parseInt(this.id[3])
-      }) !== 0
-    ) {
+    
+    //@var move is set to false so that peice won't move at first
+    var move = false; 
+    for(var i = 0; i < movements.length; i++) {
+      var m = movements[i];
+      //Checking the square if the position exists in the movements array and if it does @var move is set to true
+      if(m.x == this.id[1] && m.y == this.id[3])
+        move = true;
+    }
+    if (move) {
+      //moving piece if @var move is true
       selectedPiece.detach().appendTo("#" + this.id);
       selectPiece();
+    }else {
+      console.log('Invalid Move '+this.id+' ');
     }
   }
 });
