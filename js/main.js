@@ -82,23 +82,27 @@ var Bishop = {
   },
   showMovable: function(piece) {
     var x = parseInt(piece.position.x);
-    var v = parseInt(piece.position.y);
+    var y = parseInt(piece.position.y);
     movements = [];
-
-    while (x >= 1 && x <= 8 && y >= 1 && y <= 8) {
-      movements.push({ x: x, y: y });
-      x++;
-      y++;
-    }
-
-    var x = piece.position.x;
-    var y = piece.position.y;
-
-    while (x >= 1 && x <= 8 && y >= 1 && y <= 8) {
-      //   console.log("1st" + x + "x" + y);
-      movements.push({ x: x, y: y });
-      x++;
-      y++;
+    // each variable will have reference from x and y
+    var b1,b2,b3,b4,b5,b6,b7,b8;
+    b1=b3=b5=b7=x;
+    b2=b4=b6=b8=y;
+    //loop runs 7 times as bishop has to move maximum of 7 squares at a time. eg 1x8 to 8x1
+    for (var i=0; i<7; i++) {   
+      b1++;
+      b2++;
+      movements.push({ x: b1, y: b2 });   
+      b3++;
+      b4--;
+      movements.push({ x: b3, y: b4 });
+      b5--;
+      b6--;
+      movements.push({ x: b5, y: b6 });
+      b7--;
+      b8++;
+      movements.push({ x: b7, y: b8 });
+      
     }
 
     for (var i = 0; i < movements.length; i++) {
@@ -209,11 +213,11 @@ var Rook = {
     var y = parseInt(piece.position.y);
     movements = [];
     //4 variables for moves in 4 directions 
-    var r1,r3,r3,r4;
+    var r1,r2,r3,r4;
     r1=r3=x;
     r2=r4=y;
-    //loop runs once because pawn moves one step at a time
-    for (var i=0; i<8; i++) {   
+    //loop runs 7 times as rook has to move maximum of 7 squares at a time. eg 1x1 to 8x1
+    for (var i=0; i<7; i++) {   
       r1++;
       movements.push({ x: r1, y: y });   
       r2++;
