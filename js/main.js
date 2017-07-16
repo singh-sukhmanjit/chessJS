@@ -155,7 +155,6 @@ var Knight = {
     var y = parseInt(piece.position.y);
     movements = [];
 
-    //loop runs once because pawn moves one step at a time
     for (var i=0; i<1; i++) { 
     var k1,k2;  //value of x & y will remain same and will be used for reference
     //if value of x is changed by 2 then y will be changed by 1 and vice-versa
@@ -184,6 +183,46 @@ var Knight = {
       k1=x-2;
       k2=y-1;  
       movements.push({ x: k1, y: k2 });
+    }
+
+    for (var i = 0; i < movements.length; i++) {
+      console.log(movements[i]);
+      var cls = "#s" + movements[i].x + "x" + movements[i].y;   //eg cls = s2x5
+
+      console.log(cls);
+      $(cls).addClass("placeable"); //placeable class added to all possible moves
+    }
+
+    // console.log(movements);
+
+    return movements;
+  }
+};
+
+var Rook = {
+  moveTo: function(piece) {
+    var x = parseInt(piece.position.x);
+    var v = parseInt(piece.position.y);
+  },
+  showMovable: function(piece) {
+    var x = parseInt(piece.position.x);
+    var y = parseInt(piece.position.y);
+    movements = [];
+    //4 variables for moves in 4 directions 
+    var r1,r3,r3,r4;
+    r1=r3=x;
+    r2=r4=y;
+    //loop runs once because pawn moves one step at a time
+    for (var i=0; i<8; i++) {   
+      r1++;
+      movements.push({ x: r1, y: y });   
+      r2++;
+      movements.push({ x: x, y: r2 });
+      r3--;
+      movements.push({ x: r3, y: y });   
+      r4--;
+      movements.push({ x: x, y: r4 });
+      
     }
 
     for (var i = 0; i < movements.length; i++) {
@@ -334,6 +373,11 @@ $(".piece").click(function(e) {
       break;
   }
 
+  switch (pc.name) {
+    case "rook":
+      Rook.showMovable(pc); //showMovable() in Pawn object runs
+      break;
+  }
   e.stopPropagation();
   // console.log(e);
 });
