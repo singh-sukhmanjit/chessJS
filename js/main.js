@@ -145,6 +145,61 @@ var Pawn = {
   }
 };
 
+var Knight = {
+  moveTo: function(piece) {
+    var x = parseInt(piece.position.x);
+    var v = parseInt(piece.position.y);
+  },
+  showMovable: function(piece) {
+    var x = parseInt(piece.position.x);
+    var y = parseInt(piece.position.y);
+    movements = [];
+
+    //loop runs once because pawn moves one step at a time
+    for (var i=0; i<1; i++) { 
+    var k1,k2;  //value of x & y will remain same and will be used for reference
+    //if value of x is changed by 2 then y will be changed by 1 and vice-versa
+    //max 8 moves possible from a given position
+      k1=x+2;
+      k2=y+1;  
+      movements.push({ x: k1, y: k2 });   
+      k1=x+2;
+      k2=y-1;  
+      movements.push({ x: k1, y: k2 });
+      k1=x+1;
+      k2=y+2;  
+      movements.push({ x: k1, y: k2 });   
+      k1=x+1;
+      k2=y-2;  
+      movements.push({ x: k1, y: k2 });
+      k1=x-1;
+      k2=y+2;  
+      movements.push({ x: k1, y: k2 });   
+      k1=x-1;
+      k2=y-2;  
+      movements.push({ x: k1, y: k2 });
+      k1=x-2;
+      k2=y+1;  
+      movements.push({ x: k1, y: k2 });   
+      k1=x-2;
+      k2=y-1;  
+      movements.push({ x: k1, y: k2 });
+    }
+
+    for (var i = 0; i < movements.length; i++) {
+      console.log(movements[i]);
+      var cls = "#s" + movements[i].x + "x" + movements[i].y;   //eg cls = s2x5
+
+      console.log(cls);
+      $(cls).addClass("placeable"); //placeable class added to all possible moves
+    }
+
+    // console.log(movements);
+
+    return movements;
+  }
+};
+
 for (var i = 1; i <= 8; i++) {
   position[i] = [];
 
@@ -270,6 +325,12 @@ $(".piece").click(function(e) {
   switch (pc.name) {
     case "pawn":
       Pawn.showMovable(pc); //showMovable() in Pawn object runs
+      break;
+  }
+
+  switch (pc.name) {
+    case "knight":
+      Knight.showMovable(pc); //showMovable() in Pawn object runs
       break;
   }
 
