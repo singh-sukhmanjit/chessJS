@@ -92,9 +92,6 @@ var Bishop = {
       // console.log(cls);
       $(cls).addClass("placeable");
     }
-
-    // console.log(movements);
-
     return movements;
   }
 };
@@ -325,13 +322,13 @@ $(".piece").click(function(e) {
       Bishop.showMovable(pc);
       break;
     case "pawn":
-      Pawn.showMovable(pc); //showMovable() in Pawn object runs
+      Pawn.showMovable(pc);
       break;
     case "knight":
-      Knight.showMovable(pc); //showMovable() in Pawn object runs
+      Knight.showMovable(pc);
       break;
     case "rook":
-      Rook.showMovable(pc); //showMovable() in Pawn object runs
+      Rook.showMovable(pc);
       break;
   }
   e.stopPropagation();
@@ -340,21 +337,24 @@ $(".piece").click(function(e) {
 $(".square").click(function(e) {
   if (selectedPiece !== null) {
     var pc = checkPiece(selectedPiece.attr("id")); //eg pc = wp4
-    
+
     //@var move is set to false so that peice won't move at first
-    var move = false; 
-    for(var i = 0; i < movements.length; i++) {
+    var move = false;
+    for (var i = 0; i < movements.length; i++) {
       var m = movements[i];
       //Checking the square if the position exists in the movements array and if it does @var move is set to true
-      if(m.x == this.id[1] && m.y == this.id[3])
+      if (m.x == this.id[1] && m.y == this.id[3]) {
         move = true;
+        break;
+      }
     }
     if (move) {
       //moving piece if @var move is true
       selectedPiece.detach().appendTo("#" + this.id);
       selectPiece();
-    }else {
-      console.log('Invalid Move '+this.id+' ');
+    } else {
+      selectPiece();
+      console.log("Invalid Move " + this.id);
     }
   }
 });
