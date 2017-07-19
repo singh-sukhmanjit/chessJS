@@ -199,6 +199,46 @@ var Rook = {
   }
 };
 
+var King = {
+  showMovable: function(piece) {
+    var x = parseInt(piece.position.x);
+    var y = parseInt(piece.position.y);
+    movements = [];
+
+    var k1,k2;
+
+    //loop runs once because pawn moves one step at a time
+    for (var i = 0; i < 1; i++) {
+      k1 = x + 1;
+      movements.push({ x: k1, y: y }); //possible moves are stored in movement[]
+      k1 = x + 1;
+      k2 = y + 1;
+      movements.push({ x: k1, y: k2 });
+      k1 = x + 1;
+      k2 = y - 1;
+      movements.push({ x: k1, y: k2 });
+      k2 = y - 1;
+      movements.push({ x: x, y: k2 });
+      k1 = x - 1;
+      k2 = y - 1;
+      movements.push({ x: k1, y: k2 });
+      k1 = x - 1;
+      movements.push({ x: k1, y: y });
+      k1 = x - 1;
+      k2 = y + 1;
+      movements.push({ x: k1, y: k2 });
+      k2 = y + 1;
+      movements.push({ x: x, y: k2 });
+    }
+
+    for (var i = 0; i < movements.length; i++) {
+      var cls = "#s" + movements[i].x + "x" + movements[i].y; //eg cls = s2x5
+      $(cls).addClass("placeable"); //placeable class added to all possible moves
+    }
+    return movements;
+  }
+};
+
 for (var i = 1; i <= 8; i++) {
   position[i] = [];
 
@@ -329,6 +369,9 @@ $(".piece").click(function(e) {
       break;
     case "rook":
       Rook.showMovable(pc);
+      break;
+    case "king":
+      King.showMovable(pc);
       break;
   }
   e.stopPropagation();
