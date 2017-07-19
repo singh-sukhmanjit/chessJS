@@ -239,6 +239,53 @@ var King = {
   }
 };
 
+var Queen = {
+  showMovable: function(piece) {
+    var x = parseInt(piece.position.x);
+    var y = parseInt(piece.position.y);
+    movements = [];
+    //4 variables for moves in 4 directions
+    var q1, q2, q3, q4, q5, q6, q7, q8, q9, q10, q11, q12;
+    q1 = q3 = q5 = q7 = q9 = q11 =x;
+    q2 = q4 = q6 = q8 = q10 = q12 =y;
+    //loop runs 7 times as rook has to move maximum of 7 squares at a time. eg 1x1 to 8x1
+    for (var i = 0; i < 7; i++) {
+      q1++;
+      movements.push({ x: q1, y: y });
+      q2++;
+      movements.push({ x: x, y: q2 });
+      q3--;
+      movements.push({ x: q3, y: y });
+      q4--;
+      movements.push({ x: x, y: q4 });
+      q5++;
+      q6++;
+      movements.push({ x: q5, y: q6 });
+      q7++;
+      q8--;
+      movements.push({ x: q7, y: q8 });
+      q9--;
+      q10--;
+      movements.push({ x: q9, y: q10 });
+      q11--;
+      q12++;
+      movements.push({ x: q11, y: q12 });
+    }
+
+    for (var i = 0; i < movements.length; i++) {
+      // console.log(movements[i]);
+      var cls = "#s" + movements[i].x + "x" + movements[i].y; //eg cls = s2x5
+
+      // console.log(cls);
+      $(cls).addClass("placeable"); //placeable class added to all possible moves
+    }
+
+    // console.log(movements);
+
+    return movements;
+  }
+};
+
 for (var i = 1; i <= 8; i++) {
   position[i] = [];
 
@@ -372,6 +419,9 @@ $(".piece").click(function(e) {
       break;
     case "king":
       King.showMovable(pc);
+      break;
+    case "queen":
+      Queen.showMovable(pc);
       break;
   }
   e.stopPropagation();
