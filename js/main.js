@@ -1,12 +1,12 @@
-var position = [];
+var position = [];  //array of position for initial placement of pieces
 
-var sqSize = 80;
+var sqSize = 80;  //square size is 80*80px
 
 var selectedPiece = null;
 
 var piecesSquare = null;
 
-var movements = [];
+var movements = []; //array of available movements
 
 var pieces = [
   {
@@ -121,14 +121,6 @@ var Knight = {
     var x = parseInt(piece.position.x);
     var y = parseInt(piece.position.y);
     movements = [];
-    var abc=$('.white_piece');
-    var excArr=[];
-    var d, e;
-    for(var i=0; i<abc.length; i++){
-      d=abc[i].offsetParent.id[1];
-      e=abc[i].offsetParent.id[3];
-      excArr.push({x: d, y: e});
-    }
     
     //loop runs once because pawn moves one step at a time
     for (var i = 0; i < 1; i++) {
@@ -160,13 +152,13 @@ var Knight = {
       k2 = y - 1;
       movements.push({ x: k1, y: k2 });
     }
-
     for (var i = 0; i < movements.length; i++) {
+      // console.log(movements[i]);
       var cls = "#s" + movements[i].x + "x" + movements[i].y; //eg cls = s2x5
+
+      // console.log(cls);
       $(cls).addClass("placeable"); //placeable class added to all possible moves
     }
-
-    console.log(movements);
 
     return movements;
   }
@@ -437,9 +429,8 @@ $(".piece").click(function(e) {
 $(".square").click(function(e) {
   if (selectedPiece !== null) {
     var pc = checkPiece(selectedPiece.attr("id")); //eg pc = wp4
-    var ch=e.delegateTarget.lastChild.className;
-    var chk=ch.substr(6,16);
-    console.log(ch.substr(6,16));
+    var ch=e.delegateTarget.lastChild.className;   //ch = piece white_piece
+    var chk=ch.substr(6,16);    //chk = white_piece
     //@var move is set to false so that peice won't move at first
     var move = false;
     for (var i = 0; i < movements.length; i++) {
