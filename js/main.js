@@ -121,7 +121,15 @@ var Knight = {
     var x = parseInt(piece.position.x);
     var y = parseInt(piece.position.y);
     movements = [];
-
+    var abc=$('.white_piece');
+    var excArr=[];
+    var d, e;
+    for(var i=0; i<abc.length; i++){
+      d=abc[i].offsetParent.id[1];
+      e=abc[i].offsetParent.id[3];
+      excArr.push({x: d, y: e});
+    }
+    
     //loop runs once because pawn moves one step at a time
     for (var i = 0; i < 1; i++) {
       var k1, k2; //value of x & y will remain same and will be used for reference
@@ -158,7 +166,7 @@ var Knight = {
       $(cls).addClass("placeable"); //placeable class added to all possible moves
     }
 
-    // console.log(movements);
+    console.log(movements);
 
     return movements;
   }
@@ -401,7 +409,6 @@ function checkPiece(id, sq) {
 
 $(".piece").click(function(e) {
   selectPiece(this.id);
-
   var pc = checkPiece(this.id, e.target.parentElement.id);
   //Do not need multiple switch statements for the same logic.
   switch (pc.name) {
@@ -430,7 +437,9 @@ $(".piece").click(function(e) {
 $(".square").click(function(e) {
   if (selectedPiece !== null) {
     var pc = checkPiece(selectedPiece.attr("id")); //eg pc = wp4
-
+    var ch=e.delegateTarget.lastChild.className;
+    var chk=ch.substr(6,16);
+    console.log(ch.substr(6,16));
     //@var move is set to false so that peice won't move at first
     var move = false;
     for (var i = 0; i < movements.length; i++) {
@@ -441,7 +450,7 @@ $(".square").click(function(e) {
         break;
       }
     }
-    if (move) {
+    if (move && chk!=='white_piece') {
       //moving piece if @var move is true
       selectedPiece.detach().appendTo("#" + this.id);
       selectPiece();
