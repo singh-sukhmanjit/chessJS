@@ -71,22 +71,52 @@ var Bishop = {
     var b1, b2, b3, b4, b5, b6, b7, b8;
     b1 = b3 = b5 = b7 = x;
     b2 = b4 = b6 = b8 = y;
+    var jump = $('.piece');
     //loop runs 7 times as bishop has to move maximum of 7 squares at a time. eg 1x8 to 8x1
-    for (var i = 0; i < 7; i++) {
-      b1++;
-      b2++;
-      movements.push({ x: b1, y: b2 });
-      b3++;
-      b4--;
-      movements.push({ x: b3, y: b4 });
-      b5--;
-      b6--;
-      movements.push({ x: b5, y: b6 });
-      b7--;
-      b8++;
-      movements.push({ x: b7, y: b8 });
-    }
+    
+    loop1:for (var i = 0; i < 7; i++) {
+            b1++;
+            b2++;
+      loop2:for(var j = 0; j < jump.length ; j++){
+              if(jump[j].offsetParent.id[1]==b1 && jump[j].offsetParent.id[3]==b2){
+                break loop1;
+              }
+            }
+            movements.push({ x: b1, y: b2 });
+          }
 
+    loop1:for (var i = 0; i < 7; i++) {
+            b3++;
+            b4--;
+      loop2:for(var j = 0; j < jump.length ; j++){
+              if(jump[j].offsetParent.id[1]==b3 && jump[j].offsetParent.id[3]==b4){
+                break loop1;
+              }
+            }
+            movements.push({ x: b3, y: b4 });
+          }
+          
+    loop1:for (var i = 0; i < 7; i++) {
+            b5--;
+            b6--;
+      loop2:for(var j = 0; j < jump.length ; j++){
+              if(jump[j].offsetParent.id[1]==b5 && jump[j].offsetParent.id[3]==b6){
+                break loop1;
+              }
+            }
+            movements.push({ x: b5, y: b6 });
+          }
+
+    loop1:for (var i = 0; i < 7; i++) {
+            b7--;
+            b8++;
+      loop2:for(var j = 0; j < jump.length ; j++){
+              if(jump[j].offsetParent.id[1]==b7 && jump[j].offsetParent.id[3]==b8){
+                break loop1;
+              }
+            }
+            movements.push({ x: b7, y: b8 });
+          }      
     for (var i = 0; i < movements.length; i++) {
       // console.log(movements[i]);
       var cls = "#s" + movements[i].x + "x" + movements[i].y;
