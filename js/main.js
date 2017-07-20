@@ -111,16 +111,42 @@ var Pawn = {
 
       //TODO Piece cross logic
 
-      if (x == 2 && piece.type == "white") {
-        movements.push({ x: ++x, y: y }); //possible moves are stored in movement[]
-        movements.push({ x: ++x, y: y }); //possible moves are stored in movement[]
-      } else if (x != 2 && piece.type == "white") {
-        movements.push({ x: ++x, y: y }); //possible moves are stored in movement[]
-      } else if (x == 7 && piece.type == "black") {
-        movements.push({ x: --x, y: y }); //possible moves are stored in movement[]
-        movements.push({ x: --x, y: y }); //possible moves are stored in movement[]
-      } else if (x != 7 && piece.type == "black") {
-        movements.push({ x: --x, y: y }); //possible moves are stored in movement[]
+      if (piece.type == "white") {
+        var rightCross = $("#s" + (x + 1) + "x" + (y - 1)).children();
+        var leftCross = $("#s" + (x + 1) + "x" + (y + 1)).children();
+
+        if (rightCross.length == 3 && rightCross[2].id[0] != "w") {
+          movements.push({ x: x + 1, y: y - 1 }); //possible moves are stored in movement[]
+        }
+
+        if (leftCross.length == 3 && leftCross[2].id[0] != "w") {
+          movements.push({ x: x + 1, y: y + 1 }); //possible moves are stored in movement[]
+        }
+
+        if (x == 2) {
+          movements.push({ x: ++x, y: y }); //possible moves are stored in movement[]
+          movements.push({ x: ++x, y: y }); //possible moves are stored in movement[]
+        } else if (x != 2) {
+          movements.push({ x: ++x, y: y }); //possible moves are stored in movement[]
+        }
+      } else if (piece.type == "black") {
+        var rightCross = $("#s" + (x - 1) + "x" + (y - 1)).children();
+        var leftCross = $("#s" + (x - 1) + "x" + (y + 1)).children();
+
+        if (rightCross.length == 3 && rightCross[2].id[0] != "b") {
+          movements.push({ x: x - 1, y: y - 1 }); //possible moves are stored in movement[]
+        }
+
+        if (leftCross.length == 3 && leftCross[2].id[0] != "b") {
+          movements.push({ x: x - 1, y: y + 1 }); //possible moves are stored in movement[]
+        }
+
+        if (x == 7) {
+          movements.push({ x: --x, y: y }); //possible moves are stored in movement[]
+          movements.push({ x: --x, y: y }); //possible moves are stored in movement[]
+        } else if (x != 7) {
+          movements.push({ x: --x, y: y }); //possible moves are stored in movement[]
+        }
       }
     }
 
