@@ -8,6 +8,8 @@ var piecesSquare = null;
 
 var movements = []; //array of available movements
 
+var toMove = 1; //1 for white move, 0 for black move
+
 var pieces = [
   {
     name: "pawn",
@@ -445,25 +447,27 @@ $(".piece").click(function(e) {
   selectPiece(this.id);
   var pc = checkPiece(this.id, e.target.parentElement.id);
   //Do not need multiple switch statements for the same logic.
-  switch (pc.name) {
-    case "bishop":
-      Bishop.showMovable(pc);
-      break;
-    case "pawn":
-      Pawn.showMovable(pc);
-      break;
-    case "knight":
-      Knight.showMovable(pc);
-      break;
-    case "rook":
-      Rook.showMovable(pc);
-      break;
-    case "king":
-      King.showMovable(pc);
-      break;
-    case "queen":
-      Queen.showMovable(pc);
-      break;
+  if((toMove==1 && pc.type=="white") || (toMove==0 && pc.type=="black")){
+    switch (pc.name) {
+      case "bishop":
+        Bishop.showMovable(pc);
+        break;
+      case "pawn":
+        Pawn.showMovable(pc);
+        break;
+      case "knight":
+        Knight.showMovable(pc);
+        break;
+      case "rook":
+        Rook.showMovable(pc);
+        break;
+      case "king":
+        King.showMovable(pc);
+        break;
+      case "queen":
+        Queen.showMovable(pc);
+        break;
+    }
   }
   e.stopPropagation();
 });
@@ -488,6 +492,7 @@ $(".square").click(function(e) {
       if (move && chk !== "white_piece") {
            //moving piece if @var move is true
            selectedPiece.detach().appendTo("#" + this.id);
+           toMove = 1 - toMove;
            selectPiece();
       }
     } 
@@ -495,6 +500,7 @@ $(".square").click(function(e) {
       if (move && chk !== "black_piece") {
            //moving piece if @var move is true
            selectedPiece.detach().appendTo("#" + this.id);
+           toMove = 1 - toMove;
            selectPiece();
       }
     } 
