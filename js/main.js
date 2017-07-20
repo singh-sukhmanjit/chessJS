@@ -471,6 +471,7 @@ $(".piece").click(function(e) {
 $(".square").click(function(e) {
   if (selectedPiece !== null) {
     var pc = checkPiece(selectedPiece.attr("id")); //eg pc = wp4
+    //console.log(pc);
     var ch = e.delegateTarget.lastChild.className; //ch = piece white_piece
     var chk = ch.substr(6, 16); //chk = white_piece
     //@var move is set to false so that peice won't move at first
@@ -483,11 +484,21 @@ $(".square").click(function(e) {
         break;
       }
     }
-    if (move && chk !== "white_piece") {
-      //moving piece if @var move is true
-      selectedPiece.detach().appendTo("#" + this.id);
-      selectPiece();
-    } else {
+    if(pc.type=="white"){
+      if (move && chk !== "white_piece") {
+           //moving piece if @var move is true
+           selectedPiece.detach().appendTo("#" + this.id);
+           selectPiece();
+      }
+    } 
+    else if(pc.type=="black"){
+      if (move && chk !== "black_piece") {
+           //moving piece if @var move is true
+           selectedPiece.detach().appendTo("#" + this.id);
+           selectPiece();
+      }
+    } 
+    else {
       selectPiece();
       console.log("Invalid Move " + this.id);
     }
