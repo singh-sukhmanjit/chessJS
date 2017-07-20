@@ -1,6 +1,6 @@
-var position = [];  //array of position for initial placement of pieces
+var position = []; //array of position for initial placement of pieces
 
-var sqSize = 80;  //square size is 80*80px
+var sqSize = 80; //square size is 80*80px
 
 var selectedPiece = null;
 
@@ -104,8 +104,24 @@ var Pawn = {
 
     //loop runs once because pawn moves one step at a time
     for (var i = 0; i < 1; i++) {
-      x++; //only value of x needs to be incremented, as pawn moves straight
-      movements.push({ x: x, y: y }); //possible moves are stored in movement[]
+      //only value of x needs to be incremented, as pawn moves straight
+
+      //piece has a type to check if its white or black
+      // on position 2 and 7 pawn has too movement places
+
+      //TODO Piece cross logic
+
+      if (x == 2 && piece.type == "white") {
+        movements.push({ x: ++x, y: y }); //possible moves are stored in movement[]
+        movements.push({ x: ++x, y: y }); //possible moves are stored in movement[]
+      } else if (x != 2 && piece.type == "white") {
+        movements.push({ x: ++x, y: y }); //possible moves are stored in movement[]
+      } else if (x == 7 && piece.type == "black") {
+        movements.push({ x: --x, y: y }); //possible moves are stored in movement[]
+        movements.push({ x: --x, y: y }); //possible moves are stored in movement[]
+      } else if (x != 7 && piece.type == "black") {
+        movements.push({ x: --x, y: y }); //possible moves are stored in movement[]
+      }
     }
 
     for (var i = 0; i < movements.length; i++) {
@@ -121,7 +137,7 @@ var Knight = {
     var x = parseInt(piece.position.x);
     var y = parseInt(piece.position.y);
     movements = [];
-    
+
     //loop runs once because pawn moves one step at a time
     for (var i = 0; i < 1; i++) {
       var k1, k2; //value of x & y will remain same and will be used for reference
@@ -205,7 +221,7 @@ var King = {
     var y = parseInt(piece.position.y);
     movements = [];
 
-    var k1,k2;
+    var k1, k2;
 
     //loop runs once because pawn moves one step at a time
     for (var i = 0; i < 1; i++) {
@@ -246,8 +262,8 @@ var Queen = {
     movements = [];
     //4 variables for moves in 4 directions
     var q1, q2, q3, q4, q5, q6, q7, q8, q9, q10, q11, q12;
-    q1 = q3 = q5 = q7 = q9 = q11 =x;
-    q2 = q4 = q6 = q8 = q10 = q12 =y;
+    q1 = q3 = q5 = q7 = q9 = q11 = x;
+    q2 = q4 = q6 = q8 = q10 = q12 = y;
     //loop runs 7 times as rook has to move maximum of 7 squares at a time. eg 1x1 to 8x1
     for (var i = 0; i < 7; i++) {
       q1++;
@@ -429,8 +445,8 @@ $(".piece").click(function(e) {
 $(".square").click(function(e) {
   if (selectedPiece !== null) {
     var pc = checkPiece(selectedPiece.attr("id")); //eg pc = wp4
-    var ch=e.delegateTarget.lastChild.className;   //ch = piece white_piece
-    var chk=ch.substr(6,16);    //chk = white_piece
+    var ch = e.delegateTarget.lastChild.className; //ch = piece white_piece
+    var chk = ch.substr(6, 16); //chk = white_piece
     //@var move is set to false so that peice won't move at first
     var move = false;
     for (var i = 0; i < movements.length; i++) {
@@ -441,7 +457,7 @@ $(".square").click(function(e) {
         break;
       }
     }
-    if (move && chk!=='white_piece') {
+    if (move && chk !== "white_piece") {
       //moving piece if @var move is true
       selectedPiece.detach().appendTo("#" + this.id);
       selectPiece();
