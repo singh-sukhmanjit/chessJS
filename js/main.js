@@ -71,57 +71,52 @@ var Bishop = {
     var b1, b2, b3, b4, b5, b6, b7, b8;
     b1 = b3 = b5 = b7 = x;
     b2 = b4 = b6 = b8 = y;
-    var jump = $('.piece');
+    var m1 = m2 = m3 = m4= false; //track if move is possible in four directions
     //loop runs 7 times as bishop has to move maximum of 7 squares at a time. eg 1x8 to 8x1
-    
-    loop1:for (var i = 0; i < 7; i++) {
-            b1++;
-            b2++;
-      loop2:for(var j = 0; j < jump.length ; j++){
-              if(jump[j].offsetParent.id[1]==b1 && jump[j].offsetParent.id[3]==b2){
-                break loop1;
-              }
-            }
-            movements.push({ x: b1, y: b2 });
-          }
+    //labels: loop1, loop2, loop3, loop4 are used to break only from if condition and not from for loop 
+    for (var i = 1; i <= 8; i++){
+      loop1: if(m1==false){
+        var rightTop = $("#s" + (b1 + i) + "x" + (b2 + i)).children();
 
-    loop1:for (var i = 0; i < 7; i++) {
-            b3++;
-            b4--;
-      loop2:for(var j = 0; j < jump.length ; j++){
-              if(jump[j].offsetParent.id[1]==b3 && jump[j].offsetParent.id[3]==b4){
-                break loop1;
-              }
-            }
-            movements.push({ x: b3, y: b4 });
-          }
-          
-    loop1:for (var i = 0; i < 7; i++) {
-            b5--;
-            b6--;
-      loop2:for(var j = 0; j < jump.length ; j++){
-              if(jump[j].offsetParent.id[1]==b5 && jump[j].offsetParent.id[3]==b6){
-                break loop1;
-              }
-            }
-            movements.push({ x: b5, y: b6 });
-          }
+        if (rightTop.length == 3) {
+          m1=true;
+           break loop1;
+        }
+        movements.push({ x: b1 + i, y: b2 + i });
+      }
+      loop2: if(m2==false){
+        var rightBottom = $("#s" + (b3 - i) + "x" + (b4 + i)).children();
 
-    loop1:for (var i = 0; i < 7; i++) {
-            b7--;
-            b8++;
-      loop2:for(var j = 0; j < jump.length ; j++){
-              if(jump[j].offsetParent.id[1]==b7 && jump[j].offsetParent.id[3]==b8){
-                break loop1;
-              }
-            }
-            movements.push({ x: b7, y: b8 });
-          }      
+        if (rightBottom.length == 3) {
+          m2=true;
+           break loop2;
+        }
+        movements.push({ x: b3 - i, y: b4 + i });
+      }
+
+      loop3: if(m3==false){
+        var leftBottom = $("#s" + (b5 - i) + "x" + (b6 - i)).children();
+
+        if (leftBottom.length == 3) {
+          m3=true;
+           break loop3;
+        }
+        movements.push({ x: b5 - i, y: b6 - i });
+      }
+
+      loop4: if(m4==false){
+        var leftTop = $("#s" + (b7 + i) + "x" + (b8 - i)).children();
+
+        if (leftTop.length == 3) {
+          m4=true;
+           break loop4;
+        }
+        movements.push({ x: b7 + i, y: b8 - i });
+      }
+    }
+
     for (var i = 0; i < movements.length; i++) {
-      // console.log(movements[i]);
       var cls = "#s" + movements[i].x + "x" + movements[i].y;
-
-      // console.log(cls);
       $(cls).addClass("placeable");
     }
     return movements;
@@ -525,7 +520,7 @@ $(".square").click(function(e) {
            toMove = 1 - toMove;
            selectPiece();
       }
-    } 
+    }
     else if(pc.type=="black"){
       if (move && chk !== "black_piece") {
            //moving piece if @var move is true
@@ -533,7 +528,7 @@ $(".square").click(function(e) {
            toMove = 1 - toMove;
            selectPiece();
       }
-    } 
+    }
     else {
       selectPiece();
       console.log("Invalid Move " + this.id);
