@@ -179,7 +179,6 @@ var Knight = {
     pcCol = piece.type;
     //loop runs once because pawn moves one step at a time
     for (var i = 0; i < 1; i++) {
-      var k1, k2; //value of x & y will remain same and will be used for reference
       //if value of x is changed by 2 then y will be changed by 1 and vice-versa
       //max 8 moves possible from a given position
 
@@ -240,8 +239,6 @@ var King = {
     var y = parseInt(piece.position.y);
     movements = [];
     var pcCol = piece.type;
-    var k1, k2;
-
     //loop runs once because pawn moves one step at a time
     for (var i = 0; i < 1; i++) {
       pieceMove((x + 1), y, 'top', false, pcCol);
