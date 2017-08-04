@@ -61,58 +61,44 @@ var pieces = [
   }
 ];
 
+function pieceMove(x, y, dir, m, pcCol){
+  loop1: if(m==false){
+    dir = $("#s" + x + "x" + y).children();
+    if (dir.length == 3) {
+      pieceColor=$("#s" + x + "x" + y).children()[2].id; //eg. wp4
+      if(pcCol[0]==pieceColor[0]){ //eg w==w, white==wp4
+        m=true;
+        break loop1;
+      }
+      else{ //eg. w!=b
+        m=true;
+        movements.push({ x: x, y: y });
+        break loop1;
+      }
+    }
+
+    movements.push({ x: x, y: y });
+    return m;
+  }
+}
+
 var Bishop = {
   showMovable: function(piece) {
     var x = parseInt(piece.position.x);
 
     var y = parseInt(piece.position.y);
     movements = [];
+    var pcCol = piece.type;
     // each variable will have reference from x and y
-    var b1, b2, b3, b4, b5, b6, b7, b8;
-    b1 = b3 = b5 = b7 = x;
-    b2 = b4 = b6 = b8 = y;
-    var m1 = m2 = m3 = m4= false; //track if move is possible in four directions
+    var m1 = m2 = m3 = m4= false;
+    //track if move is possible in four directions
     //loop runs 7 times as bishop has to move maximum of 7 squares at a time. eg 1x8 to 8x1
-    //labels: loop1, loop2, loop3, loop4 are used to break only from if condition and not from for loop 
+    //labels: loop1, loop2, loop3, loop4 are used to break only from if condition and not from for loop
     for (var i = 1; i <= 8; i++){
-      loop1: if(m1==false){
-        var rightTop = $("#s" + (b1 + i) + "x" + (b2 + i)).children();
-
-        if (rightTop.length == 3) {
-          m1=true;
-           break loop1;
-        }
-        movements.push({ x: b1 + i, y: b2 + i });
-      }
-      loop2: if(m2==false){
-        var rightBottom = $("#s" + (b3 - i) + "x" + (b4 + i)).children();
-
-        if (rightBottom.length == 3) {
-          m2=true;
-           break loop2;
-        }
-        movements.push({ x: b3 - i, y: b4 + i });
-      }
-
-      loop3: if(m3==false){
-        var leftBottom = $("#s" + (b5 - i) + "x" + (b6 - i)).children();
-
-        if (leftBottom.length == 3) {
-          m3=true;
-           break loop3;
-        }
-        movements.push({ x: b5 - i, y: b6 - i });
-      }
-
-      loop4: if(m4==false){
-        var leftTop = $("#s" + (b7 + i) + "x" + (b8 - i)).children();
-
-        if (leftTop.length == 3) {
-          m4=true;
-           break loop4;
-        }
-        movements.push({ x: b7 + i, y: b8 - i });
-      }
+      m1 = pieceMove((x + i), (y + i), 'rightTop', m1, pcCol);
+      m2 = pieceMove((x - i), (y + i), 'rightBottom', m2, pcCol);
+      m3 = pieceMove((x - i), (y - i), 'leftBottom', m3, pcCol);
+      m4 = pieceMove((x + i), (y - i), 'leftTop', m4, pcCol);
     }
 
     for (var i = 0; i < movements.length; i++) {
@@ -190,36 +176,21 @@ var Knight = {
     var x = parseInt(piece.position.x);
     var y = parseInt(piece.position.y);
     movements = [];
-
+    pcCol = piece.type;
     //loop runs once because pawn moves one step at a time
     for (var i = 0; i < 1; i++) {
       var k1, k2; //value of x & y will remain same and will be used for reference
       //if value of x is changed by 2 then y will be changed by 1 and vice-versa
       //max 8 moves possible from a given position
-      k1 = x + 2;
-      k2 = y + 1;
-      movements.push({ x: k1, y: k2 });
-      k1 = x + 2;
-      k2 = y - 1;
-      movements.push({ x: k1, y: k2 });
-      k1 = x + 1;
-      k2 = y + 2;
-      movements.push({ x: k1, y: k2 });
-      k1 = x + 1;
-      k2 = y - 2;
-      movements.push({ x: k1, y: k2 });
-      k1 = x - 1;
-      k2 = y + 2;
-      movements.push({ x: k1, y: k2 });
-      k1 = x - 1;
-      k2 = y - 2;
-      movements.push({ x: k1, y: k2 });
-      k1 = x - 2;
-      k2 = y + 1;
-      movements.push({ x: k1, y: k2 });
-      k1 = x - 2;
-      k2 = y - 1;
-      movements.push({ x: k1, y: k2 });
+
+      pieceMove((x + 2), (y + 1), 'rightTop', false, pcCol);
+      pieceMove((x + 2), (y - 1), 'rightTop', false, pcCol);
+      pieceMove((x + 1), (y + 2), 'rightTop', false, pcCol);
+      pieceMove((x + 1), (y - 2), 'rightTop', false, pcCol);
+      pieceMove((x - 1), (y + 2), 'rightTop', false, pcCol);
+      pieceMove((x - 1), (y - 2), 'rightTop', false, pcCol);
+      pieceMove((x - 2), (y + 1), 'rightTop', false, pcCol);
+      pieceMove((x - 2), (y - 1), 'rightTop', false, pcCol);
     }
     for (var i = 0; i < movements.length; i++) {
       // console.log(movements[i]);
@@ -238,20 +209,15 @@ var Rook = {
     var x = parseInt(piece.position.x);
     var y = parseInt(piece.position.y);
     movements = [];
+    var pcCol = piece.type;
     //4 variables for moves in 4 directions
-    var r1, r2, r3, r4;
-    r1 = r3 = x;
-    r2 = r4 = y;
+    var m1 = m2 = m3 = m4 = false;
     //loop runs 7 times as rook has to move maximum of 7 squares at a time. eg 1x1 to 8x1
-    for (var i = 0; i < 7; i++) {
-      r1++;
-      movements.push({ x: r1, y: y });
-      r2++;
-      movements.push({ x: x, y: r2 });
-      r3--;
-      movements.push({ x: r3, y: y });
-      r4--;
-      movements.push({ x: x, y: r4 });
+    for (var i = 1; i <= 8; i++){
+      m1 = pieceMove((x + i), y, 'top', m1, pcCol);
+      m2 = pieceMove(x, (y + i), 'right', m2, pcCol);
+      m3 = pieceMove((x - i), y, 'bottom', m3, pcCol);
+      m4 = pieceMove(x, (y - i), 'left', m4, pcCol);
     }
 
     for (var i = 0; i < movements.length; i++) {
@@ -273,31 +239,19 @@ var King = {
     var x = parseInt(piece.position.x);
     var y = parseInt(piece.position.y);
     movements = [];
-
+    var pcCol = piece.type;
     var k1, k2;
 
     //loop runs once because pawn moves one step at a time
     for (var i = 0; i < 1; i++) {
-      k1 = x + 1;
-      movements.push({ x: k1, y: y }); //possible moves are stored in movement[]
-      k1 = x + 1;
-      k2 = y + 1;
-      movements.push({ x: k1, y: k2 });
-      k1 = x + 1;
-      k2 = y - 1;
-      movements.push({ x: k1, y: k2 });
-      k2 = y - 1;
-      movements.push({ x: x, y: k2 });
-      k1 = x - 1;
-      k2 = y - 1;
-      movements.push({ x: k1, y: k2 });
-      k1 = x - 1;
-      movements.push({ x: k1, y: y });
-      k1 = x - 1;
-      k2 = y + 1;
-      movements.push({ x: k1, y: k2 });
-      k2 = y + 1;
-      movements.push({ x: x, y: k2 });
+      pieceMove((x + 1), y, 'top', false, pcCol);
+      pieceMove((x + 1), (y + 1), 'top', false, pcCol);
+      pieceMove((x + 1), (y - 1), 'top', false, pcCol);
+      pieceMove(x, (y - 1), 'top', false, pcCol);
+      pieceMove((x - 1), (y - 1), 'top', false, pcCol);
+      pieceMove((x - 1), y, 'top', false, pcCol);
+      pieceMove((x - 1), (y + 1), 'top', false, pcCol);
+      pieceMove(x, (y + 1), 'top', false, pcCol);
     }
 
     for (var i = 0; i < movements.length; i++) {
@@ -313,32 +267,19 @@ var Queen = {
     var x = parseInt(piece.position.x);
     var y = parseInt(piece.position.y);
     movements = [];
+    var pcCol = piece.type;
     //4 variables for moves in 4 directions
-    var q1, q2, q3, q4, q5, q6, q7, q8, q9, q10, q11, q12;
-    q1 = q3 = q5 = q7 = q9 = q11 = x;
-    q2 = q4 = q6 = q8 = q10 = q12 = y;
+    var m1 = m2 = m3 = m4 = m5 = m6 = m7 = m8 = false;
     //loop runs 7 times as rook has to move maximum of 7 squares at a time. eg 1x1 to 8x1
-    for (var i = 0; i < 7; i++) {
-      q1++;
-      movements.push({ x: q1, y: y });
-      q2++;
-      movements.push({ x: x, y: q2 });
-      q3--;
-      movements.push({ x: q3, y: y });
-      q4--;
-      movements.push({ x: x, y: q4 });
-      q5++;
-      q6++;
-      movements.push({ x: q5, y: q6 });
-      q7++;
-      q8--;
-      movements.push({ x: q7, y: q8 });
-      q9--;
-      q10--;
-      movements.push({ x: q9, y: q10 });
-      q11--;
-      q12++;
-      movements.push({ x: q11, y: q12 });
+    for (var i = 1; i <= 8; i++) {
+      m1 = pieceMove((x + i), y, 'top', m1, pcCol);
+      m2 = pieceMove(x, (y + i), 'top', m2, pcCol);
+      m3 = pieceMove((x - i), y, 'top', m3, pcCol);
+      m4 = pieceMove(x, (y - i), 'top', m4, pcCol);
+      m5 = pieceMove((x + i), (y + i), 'top', m5, pcCol);
+      m6 = pieceMove((x + i), (y - i), 'top', m6, pcCol);
+      m7 = pieceMove((x - i), (y - i), 'top', m7, pcCol);
+      m8 = pieceMove((x - i), (y + i), 'top', m8, pcCol);
     }
 
     for (var i = 0; i < movements.length; i++) {
