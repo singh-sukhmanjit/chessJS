@@ -10,8 +10,11 @@ var movements = []; //array of available movements
 
 var toMove = 1; //1 for white move, 0 for black move
 
+var kingMov = false;
+
 var pieces = [
   {
+    image: "../pieces/Chess_blt60.png",
     name: "pawn",
     white: [
       { id: "wp1", position: [2, 1] },
@@ -35,26 +38,31 @@ var pieces = [
     ]
   },
   {
+    image: "../pieces/Chess_blt60.png",
     name: "rook",
     white: [{ id: "wr1", position: [1, 1] }, { id: "wr2", position: [1, 8] }],
     black: [{ id: "br1", position: [8, 1] }, { id: "br2", position: [8, 8] }]
   },
   {
+    image: "../pieces/Chess_blt60.png",
     name: "knight",
     white: [{ id: "wn1", position: [1, 2] }, { id: "wn2", position: [1, 7] }],
     black: [{ id: "bn1", position: [8, 2] }, { id: "bn2", position: [8, 7] }]
   },
   {
+    image: "../pieces/Chess_blt60.png",
     name: "bishop",
     white: [{ id: "wb1", position: [1, 3] }, { id: "wb2", position: [1, 6] }],
     black: [{ id: "bb1", position: [8, 3] }, { id: "bb2", position: [8, 6] }]
   },
   {
+    image: "../pieces/Chess_blt60.png",
     name: "king",
     white: [{ id: "wk1", position: [1, 5] }],
     black: [{ id: "bk1", position: [8, 5] }]
   },
   {
+    image: "../pieces/Chess_blt60.png",
     name: "queen",
     white: [{ id: "wq1", position: [1, 4] }],
     black: [{ id: "bq1", position: [8, 4] }]
@@ -241,6 +249,9 @@ var King = {
     var pcCol = piece.type;
     //loop runs once because pawn moves one step at a time
     for (var i = 0; i < 1; i++) {
+      if(kingMov==false){
+
+      }
       pieceMove((x + 1), y, 'top', false, pcCol);
       pieceMove((x + 1), (y + 1), 'top', false, pcCol);
       pieceMove((x + 1), (y - 1), 'top', false, pcCol);
